@@ -1,7 +1,7 @@
 /*
     Fozik's Code Team
     Author: Fozik
-    Version: 1.0.0
+    Version: 1.0.2
     Project: SA
 */
 
@@ -13,116 +13,130 @@
 #include <chrono>
 #include <vector>
 #include <string>
-#include "SortingSource.h" // sorting algorithms
+#include "SortingSource.h"
 
 using namespace std;
 using namespace chrono;
 
-template <typename S>
-void fillArray(vector<S>& SOURCE_ARRAY)
+template <typename ElementType>
+void populateContainer(vector<ElementType>& container)
 {
     srand(time(0));
-    //cout << "Source Array : ";
-    for (int i = 0; i < SOURCE_ARRAY.size(); i++)
+    for (int index = 0; index < container.size(); index++)
     {
-        SOURCE_ARRAY[i] = rand() % 100;
-        //cout << SOURCE_ARRAY[i] << ' ';
+        container[index] = rand() % 100;
     }
 }
 
-class Time
+class PerformanceTimer
 {
 public:
+    steady_clock::time_point measurementStart;
+    steady_clock::time_point measurementEnd;
 
-    steady_clock::time_point START_CLOCK;
-    steady_clock::time_point STOP_CLOCK;
+    void startMeasurement() { measurementStart = steady_clock::now(); }
+    void stopMeasurement() { measurementEnd = steady_clock::now(); }
 
-    void StartTime() { START_CLOCK = steady_clock::now(); }
-
-    void StopTime() { STOP_CLOCK = steady_clock::now(); }
-
-    float CountTime(int TYPE)
+    float getDuration(const int timeUnit) const
     {
-        switch (TYPE)
+        switch (timeUnit)
         {
-        case 1: 
-            return duration_cast<duration<float>>(STOP_CLOCK - START_CLOCK).count();
-        case 2: 
-            return duration_cast<duration<float, milli>>(STOP_CLOCK - START_CLOCK).count();
-        case 3: 
-            return duration_cast<duration<float, micro>>(STOP_CLOCK - START_CLOCK).count();
-        case 4: 
-            return duration_cast<duration<float, nano>>(STOP_CLOCK - START_CLOCK).count();
-        default: 
+        case TIME_UNIT_SECONDS:
+            return duration_cast<duration<float>>(measurementEnd - measurementStart).count();
+        case TIME_UNIT_MILLIS:
+            return duration_cast<duration<float, milli>>(measurementEnd - measurementStart).count();
+        case TIME_UNIT_MICROS:
+            return duration_cast<duration<float, micro>>(measurementEnd - measurementStart).count();
+        case TIME_UNIT_NANOS:
+            return duration_cast<duration<float, nano>>(measurementEnd - measurementStart).count();
+        default:
             return 0.0f;
         }
     }
 
-    template <typename A>
-    float CountAverage(int TIME_TYPE, int SORT_TYPE, int REPEAT_VALUE,  vector<A>& SOURCE_ARRAY)
+    template <typename ContainerType>
+    float calculateAverageDuration(const int timeUnit, const int algorithmType,
+        const int iterations, vector<ContainerType>& data)
     {
-        float AVERAGE_TIME = 0;
-        for (int i = 0; i < REPEAT_VALUE; i++)
+        float totalDuration = 0.0f;
+        for (int iteration = 0; iteration < iterations; iteration++)
         {
-            fillArray(SOURCE_ARRAY);
+            populateContainer(data);
 
-            switch (SORT_TYPE)
+            switch (algorithmType)
             {
-            case 1:
-                StartTime();
-                BubbleSort(SOURCE_ARRAY);
-                StopTime();
+            case SORT_BUBBLE:
+                startMeasurement();
+                bubbleSort(data);
+                stopMeasurement();
                 break;
-            case 2:
-                StartTime();
-                SelectionSort(SOURCE_ARRAY);
-                StopTime();
-            case 3:
-                StartTime();
-                InsertionSort(SOURCE_ARRAY);
-                StopTime();
-            default:
+            case SORT_SELECTION:
+                startMeasurement();
+                selectionSort(data);
+                stopMeasurement();
+                break;
+            case SORT_INSERTION:
+                startMeasurement();
+                insertionSort(data);
+                stopMeasurement();
+                break;
+            case SORT_QUICK:
+                startMeasurement();
+                quickSort(data);
+                stopMeasurement();
                 break;
             }
 
-            AVERAGE_TIME += CountTime(TIME_TYPE);
+            totalDuration += getDuration(timeUnit);
         }
 
-        AVERAGE_TIME /= REPEAT_VALUE;
-
-        return AVERAGE_TIME;
+        return totalDuration / iterations;
     }
+
+private:
+    enum TimeUnits {
+        TIME_UNIT_SECONDS = 1,
+        TIME_UNIT_MILLIS,
+        TIME_UNIT_MICROS,
+        TIME_UNIT_NANOS
+    };
+
+    enum SortingAlgorithms {
+        SORT_BUBBLE = 1,
+        SORT_SELECTION,
+        SORT_INSERTION,
+        SORT_QUICK
+    };
 };
 
-template <typename R>
-void returnArray(vector<R>& SOURCE_ARRAY, string TYPE)
+template <typename ElementType>
+void printContainer(const vector<ElementType>& container, const string& label)
 {
-    cout << endl << TYPE << " Array: ";
-    for (int i = 0; i < SOURCE_ARRAY.size(); i++)
+    cout << endl << label << " elements: ";
+    for (const auto& element : container)
     {
-        cout << SOURCE_ARRAY[i] << ' ';
+        cout << element << ' ';
     }
 }
 
-template <typename A>
-void createThread(int TIME_TYPE, int SORT_TYPE, int REPEAT_VALUE, vector<A>& SOURCE_ARRAY)
+template <typename ContainerType>
+void executeAsyncCalculation(const int timeUnit, const int algorithmType,
+    const int iterations, vector<ContainerType>& data)
 {
-    auto THREAD = async(launch::async, [TIME_TYPE, SORT_TYPE, REPEAT_VALUE, &SOURCE_ARRAY]() {
-        Time ThreadWorker;
-        return ThreadWorker.CountAverage(TIME_TYPE, SORT_TYPE, REPEAT_VALUE, SOURCE_ARRAY);
+    auto futureResult = async(launch::async, [timeUnit, algorithmType, iterations, &data]() {
+        PerformanceTimer timer;
+        return timer.calculateAverageDuration(timeUnit, algorithmType, iterations, data);
         });
 
-    cout << THREAD.get() << " ms";
+    cout << futureResult.get() << " ms";
 }
 
 int main()
 {
-    Time Program;
-    vector<int> SOURCE_ARRAY(3,0);
-    fillArray(SOURCE_ARRAY);
-    returnArray(SOURCE_ARRAY, "Source");
-    //QuickSort(SOURCE_ARRAY,0, SOURCE_ARRAY.size());
-    //returnArray(SOURCE_ARRAY, "Sorted");
-    //cout << "Calculating average time of sorting algorithm..." << endl;
-    //createThread(2, 2, 100, SOURCE_ARRAY);
+    PerformanceTimer benchmark;
+    vector<int> dataset(1000, 0);
+    populateContainer(dataset);
+
+    cout << "Calculating average sorting algorithm execution time..." << endl;
+    executeAsyncCalculation(2, 2, 1000, dataset);
 }

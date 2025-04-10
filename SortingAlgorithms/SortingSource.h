@@ -1,124 +1,125 @@
+// SortingAlgorithms.h
+/*
+    Fozik's Code Team
+    Author: Fozik
+    Version: 1.0.2
+    Project: SA/SS
+*/
+
 #pragma once
 #include <vector>
+#include <algorithm>
 
-template <typename S>
-void Switch(S sourceIndex, S destIndex, std::vector<S>& sourceArray)
+template <typename ElementType>
+void bubbleSort(std::vector<ElementType>& sortingArray)
 {
-    S bufferIndex = sourceArray[destIndex];
-    sourceArray[destIndex] = sourceArray[sourceIndex];
-    sourceArray[sourceIndex] = bufferIndex;
-}
+    const int containerSize = sortingArray.size();
 
-template <typename BS>
-void BubbleSort(std::vector<BS>& sourceArray)
-{
-    int arraySize = sourceArray.size();
-
-    for (int i = 0; i < arraySize; i++)
+    for (int currentPass = 0; currentPass < containerSize; currentPass++)
     {
-        int swaps = 0;
-        for (int j = 0; j < arraySize - 1 - i; j++)
+        bool swapped = false;
+        for (int comparisonIndex = 0; comparisonIndex < containerSize - 1 - currentPass; comparisonIndex++)
         {
-            if (sourceArray[j] > sourceArray[j + 1])
+            if (sortingArray[comparisonIndex] > sortingArray[comparisonIndex + 1])
             {
-                Switch(j, j + 1, sourceArray);
-                swaps++;
+                std::swap(sortingArray[comparisonIndex], sortingArray[comparisonIndex + 1]);
+                swapped = true;
             }
         }
-        if (swaps == 0) { break; }
+        if (!swapped) break;
     }
 }
 
-template <typename SS>
-void SelectionSort(std::vector<SS>& sourceArray)
+template <typename ElementType>
+void selectionSort(std::vector<ElementType>& sortingArray)
 {
-    int arraySize = sourceArray.size();
-    int minIndex;
+    const int containerSize = sortingArray.size();
 
-    for (int i = 0; i < arraySize; i++)
+    for (int currentPosition = 0; currentPosition < containerSize; currentPosition++)
     {
-        minIndex = i;
-        for (int j = i + 1; j < arraySize; j++)
+        int minimumIndex = currentPosition;
+        for (int searchIndex = currentPosition + 1; searchIndex < containerSize; searchIndex++)
         {
-            if (sourceArray[j] < sourceArray[minIndex])
+            if (sortingArray[searchIndex] < sortingArray[minimumIndex])
             {
-                minIndex = j;
+                minimumIndex = searchIndex;
             }
         }
-        Switch(i, minIndex, sourceArray);
+        std::swap(sortingArray[currentPosition], sortingArray[minimumIndex]);
     }
 }
 
-template <typename IS>
-void InsertionSort(std::vector<IS>& sourceArray)
+template <typename ElementType>
+void insertionSort(std::vector<ElementType>& sortingArray)
 {
-    int arraySize = sourceArray.size();
+    const int containerSize = sortingArray.size();
 
-    for (int i = 1; i < arraySize; i++)
+    for (int currentIndex = 1; currentIndex < containerSize; currentIndex++)
     {
-        int j = i - 1;
-        while (j >= 0 && sourceArray[j] > sourceArray[j + 1])
+        int comparePosition = currentIndex - 1;
+        while (comparePosition >= 0 && sortingArray[comparePosition] > sortingArray[comparePosition + 1])
         {
-            Switch(j, j + 1, sourceArray);
-            j--;
+            std::swap(sortingArray[comparePosition], sortingArray[comparePosition + 1]);
+            comparePosition--;
         }
     }
 }
 
-template <typename MoT>
-int MedianOfThree(std::vector<MoT>& sourceArray)
+template <typename ElementType>
+int medianOfThree(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
 {
-    size_t firstIndex = 0;
-    size_t lastIndex = sourceArray.size() - 1;
-    size_t midIndex = firstIndex + (lastIndex - firstIndex) / 2;
+    const int middlePosition = lowerBound + (upperBound - lowerBound) / 2;
 
-    if ((sourceArray[firstIndex] < sourceArray[midIndex] && sourceArray[midIndex] < sourceArray[lastIndex]) ||
-        (sourceArray[lastIndex] < sourceArray[midIndex] && sourceArray[midIndex] < sourceArray[firstIndex]))
-    {
-        return midIndex;
-    }
-    else if ((sourceArray[midIndex] < sourceArray[firstIndex] && sourceArray[firstIndex] < sourceArray[lastIndex]) ||
-        (sourceArray[lastIndex] < sourceArray[firstIndex] && sourceArray[firstIndex] < sourceArray[midIndex]))
-    {
-        return firstIndex;
-    }
-    else
-    {
-        return lastIndex;
-    }
+    if (sortingArray[lowerBound] > sortingArray[middlePosition])
+        std::swap(sortingArray[lowerBound], sortingArray[middlePosition]);
+    if (sortingArray[lowerBound] > sortingArray[upperBound])
+        std::swap(sortingArray[lowerBound], sortingArray[upperBound]);
+    if (sortingArray[middlePosition] > sortingArray[upperBound])
+        std::swap(sortingArray[middlePosition], sortingArray[upperBound]);
+
+    return middlePosition;
 }
 
-template <typename QP>
-int HoarePartition(std::vector<QP>& sourceArray, int pivotIndex, int lowBound, int highBound) // Hoare Partition Scheme
+template <typename ElementType>
+int partition(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
 {
-    QP pivotValue = sourceArray[pivotIndex];
+    const int pivotIndex = medianOfThree(sortingArray, lowerBound, upperBound);
+    ElementType pivotValue = sortingArray[pivotIndex];
 
-    int leftPtr = lowBound - 1;
-    int rightPtr = highBound + 1;
+    std::swap(sortingArray[pivotIndex], sortingArray[lowerBound]);
+
+    int leftPointer = lowerBound - 1;
+    int rightPointer = upperBound + 1;
 
     while (true)
     {
-        do
-        {
-            leftPtr++;
-        } while (sourceArray[leftPtr] < pivotValue);
+        do { leftPointer++; } while (sortingArray[leftPointer] < pivotValue);
 
-        do
-        {
-            rightPtr--;
-        } while (sourceArray[rightPtr] > pivotValue);
+        do { rightPointer--; } while (sortingArray[rightPointer] > pivotValue);
 
-        if (leftPtr >= rightPtr)
-        {
-            return rightPtr;
-        }
+        if (leftPointer >= rightPointer)
+            return rightPointer;
 
-        Switch(sourceArray[leftPtr], sourceArray[rightPtr]);
+        std::swap(sortingArray[leftPointer], sortingArray[rightPointer]);
     }
 }
 
-template <typename QS>
-void QuickSort(std::vector<QS>& sourceArray)
+template <typename ElementType>
+void quickSortRecursive(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
 {
-    int pivotIndex = MedianOfThree(sourceArray);
+    if (lowerBound < upperBound)
+    {
+        const int partitionIndex = partition(sortingArray, lowerBound, upperBound);
+        quickSortRecursive(sortingArray, lowerBound, partitionIndex);
+        quickSortRecursive(sortingArray, partitionIndex + 1, upperBound);
+    }
+}
+
+template <typename ElementType>
+void quickSort(std::vector<ElementType>& sortingArray)
+{
+    if (!sortingArray.empty())
+    {
+        quickSortRecursive(sortingArray, 0, sortingArray.size() - 1);
+    }
 }
