@@ -1,19 +1,13 @@
 ﻿  SortingAlgorithms.cpp
-D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(24,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-      D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(24,15):
-      the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(138,5):
-          see reference to function template instantiation 'void populateContainer<int>(std::vector<int,std::allocator<int>> &)' being compiled
-  
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(141,5):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(168,5):
           see reference to function template instantiation 'void executeAsyncCalculation<int>(const int,const int,const int,std::vector<int,std::allocator<int>> &)' being compiled
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(128,22):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(143,26):
           see reference to function template instantiation 'float PerformanceTimer::calculateAverageDuration<int>(const int,const int,const int,std::vector<int,std::allocator<int>> &)' being compiled
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(70,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(71,17):
           see reference to function template instantiation 'void bubbleSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -23,7 +17,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,48): warnin
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(75,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(76,17):
           see reference to function template instantiation 'void selectionSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -33,7 +27,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,48): warnin
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(80,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(81,17):
           see reference to function template instantiation 'void insertionSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -43,7 +37,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(123,65): warni
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(123,65):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(85,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(86,17):
           see reference to function template instantiation 'void quickSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
   SortingAlgorithms.vcxproj -> D:\Github\cpp\SortingAlgorithms\x64\Debug\SortingAlgorithms.exe

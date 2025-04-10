@@ -1,7 +1,7 @@
-/*
+﻿/*
     Fozik's Code Team
     Author: Fozik
-    Version: 1.0.2
+    Version: 1.1.0
     Project: SA
 */
 
@@ -18,13 +18,13 @@
 using namespace std;
 using namespace chrono;
 
+constexpr float CPU_LOAD_FACTOR = 1.0f;
+
 template <typename ElementType>
 void populateContainer(vector<ElementType>& container)
 {
-    srand(time(0));
-    for (int index = 0; index < container.size(); index++)
-    {
-        container[index] = rand() % 100;
+    for (int i = 0; i < container.size(); ++i) {
+        container[i] = rand() % 10000;
     }
 }
 
@@ -55,12 +55,13 @@ public:
     }
 
     template <typename ContainerType>
-    float calculateAverageDuration(const int timeUnit, const int algorithmType,
-        const int iterations, vector<ContainerType>& data)
+    float calculateAverageDuration(const int timeUnit, const int algorithmType, const int iterations, vector<ContainerType>& data)
     {
         float totalDuration = 0.0f;
         for (int iteration = 0; iteration < iterations; iteration++)
         {
+            auto iterationStart = steady_clock::now();
+
             populateContainer(data);
 
             switch (algorithmType)
@@ -87,7 +88,12 @@ public:
                 break;
             }
 
+            auto workDuration = steady_clock::now() - iterationStart;
+            auto sleepTime = workDuration * (1.0f / CPU_LOAD_FACTOR - 1);
             totalDuration += getDuration(timeUnit);
+
+            this_thread::sleep_for(sleepTime);
+            
         }
 
         return totalDuration / iterations;
@@ -123,20 +129,41 @@ template <typename ContainerType>
 void executeAsyncCalculation(const int timeUnit, const int algorithmType,
     const int iterations, vector<ContainerType>& data)
 {
-    auto futureResult = async(launch::async, [timeUnit, algorithmType, iterations, &data]() {
-        PerformanceTimer timer;
-        return timer.calculateAverageDuration(timeUnit, algorithmType, iterations, data);
-        });
+    const int maxThreads = thread::hardware_concurrency();
+    const int activeThreads = max(1, static_cast<int>(maxThreads * CPU_LOAD_FACTOR));
 
-    cout << futureResult.get() << " ms";
+    vector<future<float>> futures;
+    vector<vector<int>> threadData(activeThreads, data);
+    const int iterationsPerThread = (iterations + activeThreads - 1) / activeThreads;
+
+    for (int i = 0; i < activeThreads; ++i) 
+    {
+        futures.push_back(async(launch::async, [&, i]() {
+            PerformanceTimer timer;
+            return timer.calculateAverageDuration(
+                timeUnit,
+                algorithmType,
+                iterationsPerThread,
+                threadData[i]
+            );
+            }));
+    }
+
+    float totalTime = 0;
+    for (auto& f : futures) totalTime += f.get();
+    cout << totalTime / activeThreads << " ms (avg across " << activeThreads << " threads)";
 }
 
 int main()
 {
     PerformanceTimer benchmark;
-    vector<int> dataset(1000, 0);
+    vector<int> dataset(10000, 0);
     populateContainer(dataset);
+    //printContainer(dataset, "Source");
+    //quickSort(dataset);
+    //printContainer(dataset,"Sorted");
+
 
     cout << "Calculating average sorting algorithm execution time..." << endl;
-    executeAsyncCalculation(2, 2, 1000, dataset);
+    executeAsyncCalculation(2, 4, 10000, dataset);
 }

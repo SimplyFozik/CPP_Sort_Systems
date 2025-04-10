@@ -2,7 +2,7 @@
 /*
     Fozik's Code Team
     Author: Fozik
-    Version: 1.0.2
+    Version: 1.1.0
     Project: SA/SS
 */
 
