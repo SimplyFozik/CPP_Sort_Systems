@@ -1,0 +1,15 @@
+﻿  SortingAlgorithms.cpp
+D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(74,227): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'SortingAlgorithms.cpp')
+      D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(74,227):
+      the template instantiation context (the oldest one first) is
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(124,26):
+          see reference to function template instantiation 'int MedianOfThree<int>(std::vector<int,std::allocator<int>> &)' being compiled
+  
+D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(75,236): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'SortingAlgorithms.cpp')
+  
+D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(76,16): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  (compiling source file 'SortingAlgorithms.cpp')
+  
+  SortingAlgorithms.vcxproj -> D:\Github\cpp\SortingAlgorithms\x64\Debug\SortingAlgorithms.exe
