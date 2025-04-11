@@ -1,13 +1,19 @@
 ﻿  SortingAlgorithms.cpp
+D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(186,123): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+      D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(186,123):
+      the template instantiation context (the oldest one first) is
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(201,5):
+          see reference to function template instantiation 'void executeAsyncCalculation<int>(int,int,int,unsigned short,std::vector<int,std::allocator<int>> &)' being compiled
+  
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(168,5):
-          see reference to function template instantiation 'void executeAsyncCalculation<int>(const int,const int,const int,std::vector<int,std::allocator<int>> &)' being compiled
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(143,26):
-          see reference to function template instantiation 'float PerformanceTimer::calculateAverageDuration<int>(const int,const int,const int,std::vector<int,std::allocator<int>> &)' being compiled
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(71,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(201,5):
+          see reference to function template instantiation 'void executeAsyncCalculation<int>(int,int,int,unsigned short,std::vector<int,std::allocator<int>> &)' being compiled
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(168,38):
+          see reference to function template instantiation 'float PerformanceTimer::calculateAverageTime<int>(int,int,int,std::vector<int,std::allocator<int>> &)' being compiled
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(88,17):
           see reference to function template instantiation 'void bubbleSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(16,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -17,7 +23,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,48): warnin
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(76,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(93,17):
           see reference to function template instantiation 'void selectionSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(36,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -27,7 +33,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,48): warnin
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,48):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(81,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(98,17):
           see reference to function template instantiation 'void insertionSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
 D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(55,29): warning C4267: 'initializing': conversion from 'size_t' to 'const int', possible loss of data
@@ -37,7 +43,7 @@ D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(123,65): warni
   (compiling source file 'SortingAlgorithms.cpp')
       D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingSource.h(123,65):
       the template instantiation context (the oldest one first) is
-          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(86,17):
+          D:\Github\cpp\SortingAlgorithms\SortingAlgorithms\SortingAlgorithms.cpp(103,17):
           see reference to function template instantiation 'void quickSort<int>(std::vector<int,std::allocator<int>> &)' being compiled
   
   SortingAlgorithms.vcxproj -> D:\Github\cpp\SortingAlgorithms\x64\Debug\SortingAlgorithms.exe

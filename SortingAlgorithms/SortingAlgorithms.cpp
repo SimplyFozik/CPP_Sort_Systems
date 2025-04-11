@@ -1,7 +1,7 @@
 ﻿/*
     Fozik's Code Team
     Author: Fozik
-    Version: 1.1.0
+    Version: 1.1.4
     Project: SA
 */
 
@@ -18,13 +18,11 @@
 using namespace std;
 using namespace chrono;
 
-constexpr float CPU_LOAD_FACTOR = 1.0f;
-
 template <typename ElementType>
-void populateContainer(vector<ElementType>& container)
+void fillContainer(vector<ElementType>& vector)
 {
-    for (int i = 0; i < container.size(); ++i) {
-        container[i] = rand() % 10000;
+    for (int i = 0; i < vector.size(); ++i) {
+        vector[i] = rand() % 10000;
     }
 }
 
@@ -37,7 +35,7 @@ public:
     void startMeasurement() { measurementStart = steady_clock::now(); }
     void stopMeasurement() { measurementEnd = steady_clock::now(); }
 
-    float getDuration(const int timeUnit) const
+    float returnTime(int timeUnit)
     {
         switch (timeUnit)
         {
@@ -54,16 +52,35 @@ public:
         }
     }
 
+    static string getAlgorithmName(int algorithmType) {
+        switch (algorithmType) {
+        case SORT_BUBBLE:    return "Bubble Sort";
+        case SORT_SELECTION: return "Selection Sort";
+        case SORT_INSERTION: return "Insertion Sort";
+        case SORT_QUICK:     return "Quick Sort";
+        default:            return "Unknown Algorithm";
+        }
+    }
+
+    static string getTimeUnitName(int timeUnit) {
+        switch (timeUnit) {
+        case TIME_UNIT_SECONDS: return "s";
+        case TIME_UNIT_MILLIS:  return "ms";
+        case TIME_UNIT_MICROS:  return "μs";
+        case TIME_UNIT_NANOS:   return "ns";
+        default:               return "";
+        }
+    }
+
     template <typename ContainerType>
-    float calculateAverageDuration(const int timeUnit, const int algorithmType, const int iterations, vector<ContainerType>& data)
+    float calculateAverageTime(int timeUnit, int algorithmType, int iterations, vector<ContainerType>& data)
     {
+        
         float totalDuration = 0.0f;
+
         for (int iteration = 0; iteration < iterations; iteration++)
         {
-            auto iterationStart = steady_clock::now();
-
-            populateContainer(data);
-
+            fillContainer(data);
             switch (algorithmType)
             {
             case SORT_BUBBLE:
@@ -88,18 +105,12 @@ public:
                 break;
             }
 
-            auto workDuration = steady_clock::now() - iterationStart;
-            auto sleepTime = workDuration * (1.0f / CPU_LOAD_FACTOR - 1);
-            totalDuration += getDuration(timeUnit);
-
-            this_thread::sleep_for(sleepTime);
-            
+            totalDuration += returnTime(timeUnit); // Calculating the average time of sorting between threads
         }
 
         return totalDuration / iterations;
     }
 
-private:
     enum TimeUnits {
         TIME_UNIT_SECONDS = 1,
         TIME_UNIT_MILLIS,
@@ -116,54 +127,76 @@ private:
 };
 
 template <typename ElementType>
-void printContainer(const vector<ElementType>& container, const string& label)
+void printContainer(vector<ElementType>& container, string& label)
 {
     cout << endl << label << " elements: ";
-    for (const auto& element : container)
+    for (auto& element : container)
     {
         cout << element << ' ';
     }
 }
 
-template <typename ContainerType>
-void executeAsyncCalculation(const int timeUnit, const int algorithmType,
-    const int iterations, vector<ContainerType>& data)
+void printResults(string algorithm, string unit, int dataSize, unsigned int iterations, unsigned short activeThreads, float totalTime, float minTime, float maxTime)
 {
-    const int maxThreads = thread::hardware_concurrency();
-    const int activeThreads = max(1, static_cast<int>(maxThreads * CPU_LOAD_FACTOR));
+    cout << " Benchmark Results:\n";
+    cout << "────────────────────────────────────────────────\n";
+    cout << " Algorithm:        " << algorithm << endl;
+    cout << " Data size:        " << dataSize << " elements\n";
+    cout << " Total iterations: " << iterations << "\n";
+    cout << " Threads used:     " << activeThreads << "\n";
+    cout << "────────────────────────────────────────────────\n";
+    cout << " Average time:   " << totalTime / activeThreads << " " << unit << endl;
+    cout << " Total time:     " << totalTime << " " << unit << endl;
+    cout << " Fastest thread: " << minTime << " " << unit << endl;
+    cout << " Slowest thread: " << maxTime << " " << unit << endl;
+    cout << "────────────────────────────────────────────────\n\n";
+}
 
+template <typename ContainerType>
+void executeAsyncCalculation(int timeUnit, int algorithmType, int iterations, unsigned short activeThreads ,vector<ContainerType>& data)
+{
     vector<future<float>> futures;
     vector<vector<int>> threadData(activeThreads, data);
-    const int iterationsPerThread = (iterations + activeThreads - 1) / activeThreads;
+    vector<float> threadTimes;
+    int iterationsPerThread = (iterations + activeThreads - 1) / activeThreads; // uniform calculation of how many iterations should be done by each of the threads
 
     for (int i = 0; i < activeThreads; ++i) 
     {
-        futures.push_back(async(launch::async, [&, i]() {
-            PerformanceTimer timer;
-            return timer.calculateAverageDuration(
-                timeUnit,
-                algorithmType,
-                iterationsPerThread,
-                threadData[i]
-            );
+        futures.push_back(async(launch::async, [&, i]() 
+            {
+                PerformanceTimer timer;
+                float result = timer.calculateAverageTime(timeUnit, algorithmType, iterationsPerThread, threadData[i]);
+                threadTimes.push_back(result);
+                return result;
             }));
     }
 
     float totalTime = 0;
-    for (auto& f : futures) totalTime += f.get();
-    cout << totalTime / activeThreads << " ms (avg across " << activeThreads << " threads)";
+    float minTime = numeric_limits<float>::max(); // maximum available value (like math.huge in lua)
+    float maxTime = 0;
+
+    for (auto& f : futures)
+    {
+        float threadTime = f.get();
+        totalTime += threadTime;
+        if (threadTime < minTime) { minTime = threadTime; }
+        if (threadTime > maxTime) { maxTime = threadTime; }
+    }
+    
+    printResults(PerformanceTimer::getAlgorithmName(algorithmType), PerformanceTimer::getTimeUnitName(timeUnit), data.size(), iterations, activeThreads, totalTime, minTime, maxTime);
 }
 
 int main()
 {
-    PerformanceTimer benchmark;
-    vector<int> dataset(10000, 0);
-    populateContainer(dataset);
+    setlocale(LC_ALL, "en_US.UTF-8"); // add support of special characters
+
+    PerformanceTimer programExecutionTime;
+    vector<int> dataset(1000, 0);
+    fillContainer(dataset);
+
     //printContainer(dataset, "Source");
     //quickSort(dataset);
     //printContainer(dataset,"Sorted");
 
-
-    cout << "Calculating average sorting algorithm execution time..." << endl;
-    executeAsyncCalculation(2, 4, 10000, dataset);
+    executeAsyncCalculation(PerformanceTimer::TIME_UNIT_MILLIS, PerformanceTimer::SORT_QUICK, 1000, 16, dataset);
 }
