@@ -158,7 +158,7 @@ void executeAsyncCalculation(int timeUnit, int algorithmType, int iterations, un
     vector<future<float>> futures;
     vector<vector<int>> threadData(activeThreads, data);
     vector<float> threadTimes;
-    int iterationsPerThread = (iterations + activeThreads - 1) / activeThreads; // uniform calculation of how many iterations should be done by each of the threads
+    int iterationsPerThread = iterations / activeThreads; // uniform calculation of how many iterations should be done by each of the threads
 
     for (int i = 0; i < activeThreads; ++i) 
     {
