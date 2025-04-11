@@ -191,7 +191,7 @@ int main()
     setlocale(LC_ALL, "en_US.UTF-8"); // add support of special characters
 
     PerformanceTimer programExecutionTime;
-    vector<int> dataset(1000, 0);
+    vector<int> dataset(10000, 0);
     fillContainer(dataset);
 
     //printContainer(dataset, "Source");

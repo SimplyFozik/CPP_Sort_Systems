@@ -31,8 +31,7 @@
               "ViewState": "AgIAAC0AAAAAAAAAAAAAAHcAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2025-04-09T13:36:06.846Z",
-              "IsPinned": true,
-              "EditorCaption": ""
+              "IsPinned": true
             },
             {
               "$type": "Document",
@@ -42,7 +41,7 @@
               "RelativeDocumentMoniker": "SortingAlgorithms\\SortingAlgorithms.cpp",
               "ToolTip": "D:\\Github\\cpp\\SortingAlgorithms\\SortingAlgorithms\\SortingAlgorithms.cpp",
               "RelativeToolTip": "SortingAlgorithms\\SortingAlgorithms.cpp",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAAAMEAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-04-09T13:34:52.056Z",
               "EditorCaption": ""
