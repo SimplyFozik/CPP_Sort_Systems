@@ -33,3 +33,10 @@ Algorithm | Best Case | Average Case | Worst Case
 3. Visualization of sorting types in UI
 
 ## System Requirements
+* C++17 compatible compiler (GCC 9+/Clang 10+/MSVC 19.28+)
+* 8GB+ RAM recommended for large datasets
+* 2-Core CPU or better
+
+## Other
+### Credits
+* If you want to use my code anywhere, please mention me as the creator
