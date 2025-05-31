@@ -1,0 +1,22 @@
+# Папки сборки и кэша Visual Studio
+.vs/
+x64/
+Debug/
+Release/
+*.sdf
+*.opensdf
+*.suo
+*.user
+*.aps
+*.pdb
+*.ilk
+
+# Временные файлы
+*.tmp
+*.log
+
+# Скомпилированные бинарные файлы
+*.exe
+*.dll
+*.lib
+*.obj
