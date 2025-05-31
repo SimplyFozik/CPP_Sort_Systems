@@ -14,6 +14,9 @@ Release/
 # Временные файлы
 *.tmp
 *.log
+*.scgngj
+*.filters
+*.user
 
 # Скомпилированные бинарные файлы
 *.exe

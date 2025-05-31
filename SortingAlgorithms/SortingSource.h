@@ -1,17 +1,32 @@
-// SortingAlgorithms.h
 /*
-    Fozik's Code Team
-    Author: Fozik
-    Version: 1.1.0
-    Project: SA/SS
-*/
+ * Copyright [2025] [Fozik]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+ /*
+     E11Force Team
+     Author: Fozik
+     Version: 1.1.5
+     Project: AlgorithmsForce [Library File]
+ */
 
 #pragma once
 #include <vector>
 #include <algorithm>
 
-template <typename ElementType>
-void bubbleSort(std::vector<ElementType>& sortingArray)
+template <typename DataType>
+void bubbleSort(std::vector<DataType>& sortingArray)
 {
     const int containerSize = sortingArray.size();
 
@@ -30,8 +45,8 @@ void bubbleSort(std::vector<ElementType>& sortingArray)
     }
 }
 
-template <typename ElementType>
-void selectionSort(std::vector<ElementType>& sortingArray)
+template <typename DataType>
+void selectionSort(std::vector<DataType>& sortingArray)
 {
     const int containerSize = sortingArray.size();
 
@@ -49,8 +64,8 @@ void selectionSort(std::vector<ElementType>& sortingArray)
     }
 }
 
-template <typename ElementType>
-void insertionSort(std::vector<ElementType>& sortingArray)
+template <typename DataType>
+void insertionSort(std::vector<DataType>& sortingArray)
 {
     const int containerSize = sortingArray.size();
 
@@ -65,8 +80,8 @@ void insertionSort(std::vector<ElementType>& sortingArray)
     }
 }
 
-template <typename ElementType>
-int medianOfThree(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
+template <typename DataType>
+int medianOfThree(std::vector<DataType>& sortingArray, int lowerBound, int upperBound)
 {
     const int middlePosition = lowerBound + (upperBound - lowerBound) / 2;
 
@@ -80,11 +95,11 @@ int medianOfThree(std::vector<ElementType>& sortingArray, int lowerBound, int up
     return middlePosition;
 }
 
-template <typename ElementType>
-int partition(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
+template <typename DataType>
+int partition(std::vector<DataType>& sortingArray, int lowerBound, int upperBound)
 {
     const int pivotIndex = medianOfThree(sortingArray, lowerBound, upperBound);
-    ElementType pivotValue = sortingArray[pivotIndex];
+    DataType pivotValue = sortingArray[pivotIndex];
 
     std::swap(sortingArray[pivotIndex], sortingArray[lowerBound]);
 
@@ -104,8 +119,8 @@ int partition(std::vector<ElementType>& sortingArray, int lowerBound, int upperB
     }
 }
 
-template <typename ElementType>
-void quickSortRecursive(std::vector<ElementType>& sortingArray, int lowerBound, int upperBound)
+template <typename DataType>
+void quickSortRecursive(std::vector<DataType>& sortingArray, int lowerBound, int upperBound)
 {
     if (lowerBound < upperBound)
     {
@@ -115,8 +130,8 @@ void quickSortRecursive(std::vector<ElementType>& sortingArray, int lowerBound, 
     }
 }
 
-template <typename ElementType>
-void quickSort(std::vector<ElementType>& sortingArray)
+template <typename DataType>
+void quickSort(std::vector<DataType>& sortingArray)
 {
     if (!sortingArray.empty())
     {
