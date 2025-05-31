@@ -1,6 +1,6 @@
-# CppAsyncSorting - [CAS]
+# AlgorithmsForce - [AF]
 
-CppAsyncSorting - is a program that contains the source code for many different types of sorting algorithms in C++ <br> This program is designed to calculate the average speed of sorting execution and to measure and further optimize your personal sorting method.
+AlgorithmsForce - is a program that contains the source code for many different types of sorting algorithms in C++ <br> This program is designed to calculate the average speed of sorting execution and to measure and further optimize your personal sorting method.
 
 ## Features 
 

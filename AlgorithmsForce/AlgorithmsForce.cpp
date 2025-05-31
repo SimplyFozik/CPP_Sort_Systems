@@ -29,7 +29,7 @@
 #include <chrono>
 #include <vector>
 #include <string>
-#include "SortingSource.h"
+#include "AlgorithmsSource.h";
 
 using namespace std;
 using namespace chrono;
@@ -91,7 +91,7 @@ public:
     template <typename ContainerType>
     float calculateAverageTime(int timeUnit, int algorithmType, int iterations, vector<ContainerType>& data)
     {
-        
+
         float totalDuration = 0.0f;
 
         for (int iteration = 0; iteration < iterations; iteration++)
@@ -169,16 +169,16 @@ void printResults(string algorithm, string unit, int dataSize, unsigned int iter
 }
 
 template <typename ContainerType>
-void executeAsyncCalculation(int timeUnit, int algorithmType, int iterations, unsigned short activeThreads ,vector<ContainerType>& data)
+void executeAsyncCalculation(int timeUnit, int algorithmType, int iterations, unsigned short activeThreads, vector<ContainerType>& data)
 {
     vector<future<float>> futures;
     vector<vector<int>> threadData(activeThreads, data);
     vector<float> threadTimes;
     int iterationsPerThread = iterations / activeThreads; // uniform calculation of how many iterations should be done by each of the threads
 
-    for (int i = 0; i < activeThreads; ++i) 
+    for (int i = 0; i < activeThreads; ++i)
     {
-        futures.push_back(async(launch::async, [&, i]() 
+        futures.push_back(async(launch::async, [&, i]()
             {
                 PerformanceTimer timer;
                 float result = timer.calculateAverageTime(timeUnit, algorithmType, iterationsPerThread, threadData[i]);
@@ -198,7 +198,7 @@ void executeAsyncCalculation(int timeUnit, int algorithmType, int iterations, un
         if (threadTime < minTime) { minTime = threadTime; }
         if (threadTime > maxTime) { maxTime = threadTime; }
     }
-    
+
     printResults(PerformanceTimer::getAlgorithmName(algorithmType), PerformanceTimer::getTimeUnitName(timeUnit), data.size(), iterations, activeThreads, totalTime, minTime, maxTime);
 }
 
